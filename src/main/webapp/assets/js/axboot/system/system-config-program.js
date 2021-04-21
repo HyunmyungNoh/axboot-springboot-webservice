@@ -89,8 +89,8 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
         var _this = this;
         this.target = axboot.gridBuilder({
             showRowSelector: true,
-            frozenColumnIndex: 2,
-            multipleSelect: true,
+            frozenColumnIndex: 2,   // 2개의 컬럼까지 움직이지 않게 할 수 있음
+            multipleSelect: true,   // 선택을 여러 개 할 수 있느냐 없느냐
             target: $('[data-ax5grid="grid-view-01"]'),
             columns: [
                 {key: "progNm", label: COL("ax.admin.program.name"), width: 160, align: "left", editor: "text"},
@@ -109,6 +109,7 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
             ],
             body: {
                 onClick: function () {
+                    // console.log(this, arguments);
                     this.self.select(this.dindex, {selectedClear: true});
                 }
             }
