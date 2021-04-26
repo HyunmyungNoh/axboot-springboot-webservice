@@ -13,9 +13,9 @@ import java.util.List;
 public class CompanyService extends BaseService<Company, Long> {
     private CompanyRepository companyRepository;
 
-    @Inject //버전마다 어노테이션이 다를 수 있음.
+/*    @Inject //버전마다 어노테이션이 다를 수 있음.
     //mapper 사용하기 위한 선언, mapper는 별도로 bean으로 인젝션을 시켜줘야함.
-    private CompanyMapper companyMapper;
+    private CompanyMapper companyMapper;*/
 
     @Inject
     public CompanyService(CompanyRepository companyRepository) {
@@ -27,13 +27,13 @@ public class CompanyService extends BaseService<Company, Long> {
         return findAll();
     }
 
-    //QueryDSL
+    // QueryDSL
     public List<Company> getByQueryDsl(RequestParams<Company> requestParams) {
         String company = requestParams.getString("company", "");
         String ceo = requestParams.getString("ceo", "");
         String bizno = requestParams.getString("bizno", "");
 
-        BooleanBuilder builder = new BooleanBuilder();
+        /*BooleanBuilder builder = new BooleanBuilder();
         if (isNotEmpty(company)) {
             builder.and(qCompany.companyNm.eq(company));
         }
@@ -47,38 +47,103 @@ public class CompanyService extends BaseService<Company, Long> {
                 .from(qCompany)
                 .where(builder)
                 .orderBy(qCompany.companyNm.asc())
-                .fetch();
+                .fetch();*/
+
+        // 아래에서 동일 이름으로 인자만 달리하여 오버로딩한 메서드를 이용하여 중복 코드를 리팩토링
+        List<Company> companyList = this.getByQueryDsl(company, ceo, bizno);
+
         return companyList;
     }
 
+    public List<Company> getByQueryDsl(String companyNm, String ceo, String bizno) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (isNotEmpty(companyNm)) {
+            builder.and(qCompany.companyNm.eq(companyNm));
+        }
+        if (isNotEmpty(ceo)) {
+            builder.and(qCompany.ceo.eq(ceo));
+        }
+        if (isNotEmpty(bizno)) {
+            builder.and(qCompany.bizno.eq(bizno));
+        }
+        List<Company> companyList = select()
+                .from(qCompany)
+                .where(builder)
+                .orderBy(qCompany.companyNm.asc())
+                .fetch();
+
+        return companyList;
+    }
     @Transactional
-    public void saveByQueryDsl(List<Company> request) {
+//    public int saveByQueryDsl(List<Company> request) {
+    public long saveByQueryDsl(List<Company> request) { // id를 직접 확인해 보기 위해 long으로 변경해 봄
+        long result = 0;
         for (Company company: request) {
-            if (company.isCreated()) {
-                save(company);
+            result = saveOneByQueryDsl(company);
+            /*if (company.isCreated()) {
+                Company rtnObj = save(company); // DB에 저장된 결과 값을 받겠다는 의미
+                result = rtnObj.getId();
             } else if (company.isModified()) {
-                update(qCompany)
+                result = update(qCompany)
                         .set(qCompany.companyNm, company.getCompanyNm())
                         .set(qCompany.ceo, company.getCeo())
+                        .set(qCompany.bizno, company.getBizno())
                         .where(qCompany.id.eq(company.getId()))
-                        .execute();
+                        .execute(); // excute의 리턴 값은 성공 여부에 따라 0 혹은 1
             } else if (company.isDeleted()) {
-                delete(qCompany)
+                result = delete(qCompany)
                         .where(qCompany.id.eq(company.getId()))
                         .execute();
-            }
+            }*/
         }
+        return result;
     }
 
+    public Company getOneByQueryDsl(long id) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(qCompany.id.eq(id));
+
+        Company company = select()
+                .from(qCompany)
+                .where(builder)
+                .fetchOne();
+
+        return company;
+    }
+
+    /* 단 건 작업 */
+    @Transactional
+    public long saveOneByQueryDsl(Company company) {
+        long result = 0;
+
+        if (company.isCreated()) {
+            Company rtnObj = save(company); // DB에 저장된 결과 값을 받겠다는 의미
+            result = rtnObj.getId();
+        } else if (company.isModified()) {
+            result = update(qCompany)
+                    .set(qCompany.companyNm, company.getCompanyNm())
+                    .set(qCompany.ceo, company.getCeo())
+                    .set(qCompany.bizno, company.getBizno())
+                    .where(qCompany.id.eq(company.getId()))
+                    .execute(); // excute의 리턴 값은 성공 여부에 따라 0 혹은 1
+        } else if (company.isDeleted()) {
+            result = delete(qCompany)
+                    .where(qCompany.id.eq(company.getId()))
+                    .execute();
+        }
+
+        return result;
+    }
+/*
     //selectBy new메서드 생성
     public List<Company> selectBy(RequestParams<Company> requestParams) {
 
         // 받을 파라미터값 추가
-        /*
+        *//*
             String company = requestParams.getString("company", "");
             String ceo = requestParams.getString("ceo", "");
             String bizno = requestParams.getString("bizno", "");
-            */
+            *//*
 
         //company를 담을 객체를 생성
         Company company = new Company();
@@ -108,5 +173,5 @@ public class CompanyService extends BaseService<Company, Long> {
 
     public Company selectOne(RequestParams<Company> requestParams) {
         return this.companyMapper.selectOne(requestParams.getLong("id", 0));
-    }
+    }*/
 }

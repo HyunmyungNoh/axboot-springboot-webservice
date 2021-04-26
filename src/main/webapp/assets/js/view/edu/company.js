@@ -4,8 +4,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         axboot.ajax({
             type: "GET",
 //            url: "/api/v1/company",
-//            url: "/api/v1/company/QueryDsl",
-              url: "/api/v1/company/MyBatis",
+            url: "/api/v1/company/queryDsl",
+//              url: "/api/v1/company/MyBatis",
             data: caller.searchView.getData(),
             callback: function (res) {
                 caller.gridView01.setData(res);
@@ -27,8 +27,8 @@ var ACTIONS = axboot.actionExtend(fnObj, {
         axboot.ajax({
             type: "PUT",
  //         url: "/api/v1/company",
- //         url: "/api/v1/company/QueryDsl",
-            url: "/api/v1/company/MyBatis",
+          url: "/api/v1/company/queryDsl",
+//            url: "/api/v1/company/MyBatis",
             data: JSON.stringify(saveList),
             callback: function (res) {
                 ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);

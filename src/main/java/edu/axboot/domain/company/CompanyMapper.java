@@ -4,7 +4,8 @@ import com.chequer.axboot.core.mybatis.MyBatisMapper;
 
 import java.util.List;
 
-public interface CompanyMapper extends MyBatisMapper {
+//public interface CompanyMapper extends MyBatisMapper {
+public interface CompanyMapper {
     List<Company> selectBy(Company company);
 //    List<Company> selectBy(String companyName);
 
