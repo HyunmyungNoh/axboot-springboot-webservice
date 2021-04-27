@@ -90,17 +90,21 @@ fnObj.pageButtonView = axboot.viewExtend({
 /**
  * searchView
  */
-fnObj.searchView = axboot.viewExtend(axboot.searchView, {
+ fnObj.searchView = axboot.viewExtend(axboot.searchView, {
     initView: function () {
         this.target = $(document["searchView0"]);
         this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
-        this.filter = $("#filter");
+        this.company = $("#company");
+        this.ceo = $("#ceo");
+        this.bizno = $("#bizno");
     },
     getData: function () {
         return {
             pageNumber: this.pageNumber,
             pageSize: this.pageSize,
-            filter: this.filter.val()
+            company: this.company.val(),
+            ceo: this.ceo.val(),
+            bizno: this.bizno.val()
         }
     }
 });
@@ -162,24 +166,5 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
     },
     addRow: function () {
         this.target.addRow({__created__: true}, "last");
-    }
-});
-
-fnObj.searchView = axboot.viewExtend(axboot.searchView, {
-    initView: function () {
-        this.target = $(document["searchView0"]);
-        this.target.attr("onsubmit", "return ACTIONS.dispatch(ACTIONS.PAGE_SEARCH);");
-        this.company = $("#company");
-        this.ceo = $("#ceo");
-        this.bizno = $("#bizno");
-    },
-    getData: function () {
-        return {
-            pageNumber: this.pageNumber,
-            pageSize: this.pageSize,
-            company: this.company.val(),
-            ceo: this.ceo.val(),
-            bizno: this.bizno.val()
-        }
     }
 });
