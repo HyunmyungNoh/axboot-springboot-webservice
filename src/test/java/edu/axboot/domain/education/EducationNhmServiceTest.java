@@ -31,9 +31,10 @@ public class NhmGridServiceTest {
         String company = "";
         String ceo = "";
         String bizno = "";
+        String useYn = "A";
 
         // when
-        List<NhmGrid> result = this.nhmGridService.getByQueryDsl(company, ceo, bizno);
+        List<NhmGrid> result = this.nhmGridService.getByQueryDsl(company, ceo, bizno, useYn);
 
         // then
         assertTrue(result.size()>0);
