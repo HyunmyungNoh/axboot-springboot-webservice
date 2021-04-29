@@ -1,122 +1,249 @@
 package edu.axboot.domain.education;
 
+import com.chequer.axboot.core.parameter.RequestParams;
 import com.querydsl.core.BooleanBuilder;
-import org.springframework.stereotype.Service;
 import edu.axboot.domain.BaseService;
+import org.springframework.stereotype.Service;
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-
-import com.chequer.axboot.core.parameter.RequestParams;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
-public class NhmGridService extends BaseService<NhmGrid, Long> {
-    private NhmGridRepository nhmGridRepository;
+public class EducationNhmService extends BaseService<EducationNhm, Long> {
+    private EducationNhmRepository educationNhmRepository;
 
     @Inject
-    private NhmGridMapper nhmGridMapper;
+    private EducationNhmMapper educationNhmMapper;
 
     @Inject
-    public NhmGridService(NhmGridRepository nhmGridRepository) {
-        super(nhmGridRepository);
-        this.nhmGridRepository = nhmGridRepository;
+    public EducationNhmService(EducationNhmRepository educationNhmRepository) {
+        super(educationNhmRepository);
+        this.educationNhmRepository = educationNhmRepository;
     }
-
-    public List<NhmGrid> gets(RequestParams<NhmGrid> requestParams) {
+/*
+    public List<EducationNhm> gets(RequestParams<EducationNhm> requestParams) {
         return findAll();
-    }
+    }*/
 
     // QueryDsl
-
-    public List<NhmGrid> getByQueryDsl(RequestParams<NhmGrid> requestParams) {
-        String company = requestParams.getString("company", "");
+    public List<EducationNhm> getByQueryDsl(RequestParams<EducationNhm> requestParams) {
+        String company = requestParams.getString("companyNm", "");
         String ceo = requestParams.getString("ceo", "");
         String bizno = requestParams.getString("bizno", "");
         String useYn = requestParams.getString("useYn", "");
 
-        List<NhmGrid> nhmGridList = this.getByQueryDsl(company, ceo, bizno, useYn);
+        List<EducationNhm> educationNhmList = this.getByQueryDsl(company, ceo, bizno, useYn);
 
-        return nhmGridList;
+        return educationNhmList;
     }
-    public List<NhmGrid> getByQueryDsl(String companyNm, String ceo, String bizno, String useYn) {
+    public List<EducationNhm> getByQueryDsl(String companyNm, String ceo, String bizno, String useYn) {
         BooleanBuilder builder = new BooleanBuilder();
-        if(isNotEmpty(companyNm)) builder.and(qNhmGrid.companyNm.contains(companyNm));
-        if(isNotEmpty(ceo)) builder.and(qNhmGrid.ceo.like(ceo + "%"));
-        if(isNotEmpty(bizno)) builder.and(qNhmGrid.bizno.contains(bizno));
-        if(isNotEmpty(useYn)) builder.and(qNhmGrid.useYn.eq(useYn));
+        if(isNotEmpty(companyNm)) builder.and(qEducationNhm.companyNm.contains(companyNm));
+        if(isNotEmpty(ceo)) builder.and(qEducationNhm.ceo.like(ceo + "%"));
+        if(isNotEmpty(bizno)) builder.and(qEducationNhm.bizno.eq(bizno));
+        if(isNotEmpty(useYn)) builder.and(qEducationNhm.useYn.eq(useYn));
 
-        List<NhmGrid> nhmGridList = select().
-                from(qNhmGrid).
+        List<EducationNhm> educationNhmList = select().
+                from(qEducationNhm).
                 where(builder).
-                orderBy(qNhmGrid.companyNm.asc())
+                orderBy(qEducationNhm.companyNm.asc())
                 .fetch();
 
-        return nhmGridList;
+        return educationNhmList;
     }
 
-    public NhmGrid getOneByQueryDsl(long id) {
+    public EducationNhm getOneByQueryDsl(long id) {
         BooleanBuilder builder = new BooleanBuilder();
-        builder.and(qNhmGrid.id.eq(id));
+        builder.and(qEducationNhm.id.eq(id));
 
-        NhmGrid nhmGrid = select()
-                .from(qNhmGrid)
+        EducationNhm educationNhm = select()
+                .from(qEducationNhm)
                 .where(builder)
                 .fetchOne();
 
-        return nhmGrid;
+        return educationNhm;
     }
 
     @Transactional
-    public long saveByQueryDsl(List<NhmGrid> request) {
+    public long saveByQueryDsl(List<EducationNhm> request) {
         long result = 0;
 
-        for (NhmGrid nhmGrid: request){
-            if (nhmGrid.isCreated()) {
-                NhmGrid rtnObj = save(nhmGrid);
+        for (EducationNhm educationNhm : request){
+            if (educationNhm.isCreated()) {
+                EducationNhm rtnObj = save(educationNhm);
                 result = rtnObj.getId();
-            } else if (nhmGrid.isModified()) {
-                result = update(qNhmGrid)
-                        .set(qNhmGrid.companyNm, nhmGrid.getCompanyNm())
-                        .set(qNhmGrid.ceo, nhmGrid.getCeo())
-                        .set(qNhmGrid.bizno, nhmGrid.getBizno())
-                        .set(qNhmGrid.tel, nhmGrid.getTel())
-                        .set(qNhmGrid.email, nhmGrid.getEmail())
-                        .set(qNhmGrid.useYn, nhmGrid.getUseYn())
-                        .where(qNhmGrid.id.eq(nhmGrid.getId()))
+            } else if (educationNhm.isModified()) {
+                result = update(qEducationNhm)
+                        .set(qEducationNhm.companyNm, educationNhm.getCompanyNm())
+                        .set(qEducationNhm.ceo, educationNhm.getCeo())
+                        .set(qEducationNhm.bizno, educationNhm.getBizno())
+                        .set(qEducationNhm.tel, educationNhm.getTel())
+                        .set(qEducationNhm.email, educationNhm.getEmail())
+                        .set(qEducationNhm.useYn, educationNhm.getUseYn())
+                        .where(qEducationNhm.id.eq(educationNhm.getId()))
                         .execute();
-            } else if (nhmGrid.isDeleted()) {
-                result = delete(qNhmGrid)
-                        .where(qNhmGrid.id.eq(nhmGrid.getId()))
+            } else if (educationNhm.isDeleted()) {
+                result = delete(qEducationNhm)
+                        .where(qEducationNhm.id.eq(educationNhm.getId()))
                         .execute();
             }
         }
         return result;
     }
 
-    public List<NhmGrid> getByMyBatis(RequestParams<NhmGrid> requestParams) {
-        NhmGrid nhmGrid = new NhmGrid();
-        nhmGrid.setCompanyNm(requestParams.getString("company", ""));
-        nhmGrid.setCeo(requestParams.getString("ceo", ""));
-        nhmGrid.setBizno(requestParams.getString("bizno", ""));
-        nhmGrid.setUseYn(requestParams.getString("useYn", ""));
+    // MyBatis
+/*    public List<EducationNhm> getByMyBatis(RequestParams<EducationNhm> requestParams) {
+        EducationNhm educationNhm = new EducationNhm();
+        educationNhm.setCompanyNm(requestParams.getString("companyNm", ""));
+        educationNhm.setCeo(requestParams.getString("ceo", ""));
+        educationNhm.setBizno(requestParams.getString("bizno", ""));
+        educationNhm.setUseYn(requestParams.getString("useYn", ""));
 
-        return this.nhmGridMapper.selectBy(nhmGrid);
+        return this.educationNhmMapper.selectBy(educationNhm);
     }
 
 
-    public NhmGrid getOneByMyBatis(long id) {
-        return this.nhmGridMapper.selectOne(id);
+    public EducationNhm getOneByMyBatis(long id) {
+        return this.educationNhmMapper.selectOne(id);
     }
 
-    public void saveByMyBatis(List<NhmGrid> request) {
-        for (NhmGrid nhmGrid : request){
-            if (nhmGrid.isCreated()) {
-                this.nhmGridMapper.insert(nhmGrid);
-            } else if (nhmGrid.isModified()) {
-                this.nhmGridMapper.update(nhmGrid);
-            } else if (nhmGrid.isDeleted()) {
-                this.nhmGridMapper.delete(nhmGrid);
+    public void saveByMyBatis(List<EducationNhm> request) {
+        for (EducationNhm educationNhm : request){
+            if (educationNhm.isCreated()) {
+                this.educationNhmMapper.insert(educationNhm);
+            } else if (educationNhm.isModified()) {
+                this.educationNhmMapper.update(educationNhm);
+            } else if (educationNhm.isDeleted()) {
+                this.educationNhmMapper.delete(educationNhm);
             }
         }
+    }*/
+
+    /********
+     * 4/28 Form을 위한 새로운 서비스 함수
+     * ********/
+
+    /*JPA*/
+    public List<EducationNhm> gets(RequestParams<EducationNhm> requestParams) {
+        List<EducationNhm> list = this.getFilter(findAll(), requestParams.getString("companyNm", ""), 1);
+        List<EducationNhm> list2 = this.getFilter(list, requestParams.getString("ceo", ""), 2);
+        List<EducationNhm> list3 = this.getFilter(list2, requestParams.getString("bizno", ""), 3);
+        List<EducationNhm> list4 = this.getFilter(list3, requestParams.getString("useYn", ""), 4);
+
+        return list4;
     }
+
+    // 조건에 맞는 것을 찾는 함수
+    private List<EducationNhm> getFilter(List<EducationNhm> sources, String filter, int typ) {
+        List<EducationNhm> targets = new ArrayList<EducationNhm>();
+        for (EducationNhm entity: sources) {
+            if ("".equals(filter)) {
+                targets.add(entity);
+            } else {
+                if (typ == 1) {
+                    if (entity.getCompanyNm().contains(filter)) {
+                        targets.add(entity);
+                    }
+                } else if (typ == 2) {
+                    if (entity.getCeo().contains(filter)) {
+                        targets.add(entity);
+                    }
+                } else if (typ == 3) {
+                    if (entity.getBizno().equals(filter)) {
+                        targets.add(entity);
+                    }
+                } else if (typ == 4) {
+                    if (entity.getUseYn().equals(filter)) {
+                        targets.add(entity);
+                    }
+                }
+            }
+        }
+        return targets;
+    }
+
+    /*QueryDsl*/
+    public List<EducationNhm> gets(String companyNm, String ceo, String bizno, String useYn) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if (isNotEmpty(companyNm)) builder.and(qEducationNhm.companyNm.like("%" + companyNm + "%"));
+        if (isNotEmpty(ceo)) builder.and(qEducationNhm.ceo.like("%" + ceo +"%"));
+        if (isNotEmpty(bizno)) builder.and(qEducationNhm.bizno.like("%" + bizno + "%"));
+        if (isNotEmpty(useYn)) builder.and(qEducationNhm.useYn.eq(useYn));
+
+        List<EducationNhm> list = select()
+                .from(qEducationNhm)
+                .where(builder)
+                .orderBy(qEducationNhm.companyNm.asc())
+                .fetch();
+
+        return list;
+    }
+
+    public EducationNhm getByOne(Long id) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(qEducationNhm.id.eq(id));
+
+        EducationNhm entity = select()
+                .from(qEducationNhm)
+                .where(builder)
+                .fetchOne();
+
+        return entity;
+    }
+
+    @Transactional
+    public void persist(EducationNhm request) {
+        if (request.getId() == null || request.getId() == 0) {
+            save(request);
+        } else {
+            update(qEducationNhm)
+                    .set(qEducationNhm.companyNm, request.getCompanyNm())
+                    .set(qEducationNhm.ceo, request.getCeo())
+                    .set(qEducationNhm.bizno, request.getBizno())
+                    .set(qEducationNhm.tel, request.getTel())
+                    .set(qEducationNhm.zip, request.getZip())
+                    .set(qEducationNhm.address, request.getAddress())
+                    .set(qEducationNhm.addressDetail, request.getAddressDetail())
+                    .set(qEducationNhm.email, request.getEmail())
+                    .set(qEducationNhm.remark, request.getRemark())
+                    .set(qEducationNhm.useYn, request.getUseYn())
+                    .where(qEducationNhm.id.eq(request.getId()))
+                    .execute();
+        }
+    }
+
+    @Transactional
+    public void remove(Long id) {
+        delete(qEducationNhm)
+        .where(qEducationNhm.id.eq(id))
+        .execute();
+    }
+
+    /*MyBatis*/
+    public List<EducationNhm> select(String companyNm, String ceo, String bizno, String useYn) {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("companyNm", companyNm);
+        params.put("ceo", ceo);
+        params.put("bizno", bizno);
+        params.put("useYn", useYn);
+
+        List<EducationNhm> list = educationNhmMapper.select(params);
+        return list;
+    }
+
+    public EducationNhm selectOne (Long id) { return educationNhmMapper.selectOne(id);}
+
+    public void enroll(EducationNhm request) {
+        if (request.getId() == null || request.getId() == 0) {
+            educationNhmMapper.insert(request);
+        } else {
+            educationNhmMapper.update(request);
+        }
+    }
+
+    public void del(Long id) { educationNhmMapper.delete(id); }
 }

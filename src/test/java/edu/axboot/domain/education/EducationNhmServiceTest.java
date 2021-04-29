@@ -18,10 +18,10 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AXBootApplication.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class NhmGridServiceTest {
+public class EducationNhmServiceTest {
 
     @Autowired
-    private NhmGridService nhmGridService;
+    private EducationNhmService educationNhmService;
 
     public static long testId = 0;
 
@@ -34,7 +34,7 @@ public class NhmGridServiceTest {
         String useYn = "A";
 
         // when
-        List<NhmGrid> result = this.nhmGridService.getByQueryDsl(company, ceo, bizno, useYn);
+        List<EducationNhm> result = this.educationNhmService.getByQueryDsl(company, ceo, bizno, useYn);
 
         // then
         assertTrue(result.size()>0);

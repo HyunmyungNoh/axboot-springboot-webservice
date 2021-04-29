@@ -3,7 +3,7 @@ package edu.axboot.domain;
 
 import edu.axboot.domain.code.QCommonCode;
 import edu.axboot.domain.company.QCompany;
-import edu.axboot.domain.education.QNhmGrid;
+import edu.axboot.domain.education.QEducationNhm;
 import edu.axboot.domain.file.QCommonFile;
 import edu.axboot.domain.program.QProgram;
 import edu.axboot.domain.program.menu.QMenu;
@@ -28,7 +28,7 @@ public class BaseService<T, ID extends Serializable> extends AXBootBaseService<T
     protected QMenu qMenu = QMenu.menu;
     protected QCommonFile qCommonFile = QCommonFile.commonFile;
     protected QCompany qCompany = QCompany.company;
-    protected QNhmGrid qNhmGrid = QNhmGrid.nhmGrid;
+    protected QEducationNhm qEducationNhm = QEducationNhm.educationNhm;
 
     protected AXBootJPAQueryDSLRepository<T, ID> repository;
 

@@ -22,7 +22,7 @@ import java.time.Instant;
 @Table(name = "EDUCATION_NHM")
 //@IdClass(NhmGrid.NhmGridId.class)
 //@Alias("nhmGrid")
-public class NhmGrid extends SimpleJpaModel<Long> {
+public class EducationNhm extends SimpleJpaModel<Long> {
 
 	@Id
 	@Column(name = "ID", precision = 19, nullable = false)
