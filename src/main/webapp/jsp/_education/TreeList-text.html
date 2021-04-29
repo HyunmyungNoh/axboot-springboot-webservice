@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/axboot.css">
+    <script type="text/javascript" src="/assets/js/plugins.min.js"></script>
+    <script type="text/javascript" src="/assets/js/axboot/dist/axboot.js"></script>
+    <script type="text/javascript" src="/axboot.config.js"></script>
+</head>
+<body>
+    <div data-ax5grid="first-grid" style="height:500px"></div>
+    <script type="text/javascript">
+        $(document.body).ready(function () {
+            var API_SERVER = "http://api-demo.ax5.io";
+            var firstGrid = new ax5.ui.grid({
+                target: $('[data-ax5grid="first-grid"]'),
+                showLineNumber: true,
+                showRowSelector: true,
+                header: {align:'center'},
+                frozenColumnIndex: 3,
+                frozenRowIndex: 2,
+                columns: [
+                    {
+                        key: "id",
+                        label: "ID",
+                        width: 80,
+                        styleClass: function () {
+                            return "ABC";
+                        },
+                        enableFilter: true,
+                        align: "center",
+                        editor: {
+                            type: "text", disabled: function () {
+                                // item, value
+                                return false;
+                            }
+                        }
+                    },
+                    {key: "name", label: "Name", align: "left", width: 200, treeControl: true},
+                    {
+                        key: "isChecked", label: "Checkbox", width: 50, sortable: false, align: "center", editor: {
+                        type: "checkbox", config: {height: 17, trueValue: "Y", falseValue: "N"}
+                    }
+                    },
+                    {
+                        key: "saleType", label: "saleType", align: "center", editor: {
+                        type: "select", config: {
+                            columnKeys: {
+                                optionValue: "CD", optionText: "NM"
+                            },
+                            options: [
+                                {CD: "A", NM: "A: String"},
+                                {CD: "B", NM: "B: Number"},
+                                {CD: "C", NM: "C: substr"},
+                                {CD: "A", NM: "A: String"},
+                                {CD: "B", NM: "B: Number"},
+                                {CD: "C", NM: "C: substr"},
+                                {CD: "A", NM: "A: String"},
+                                {CD: "B", NM: "B: Number"},
+                                {CD: "C", NM: "C: substr"},
+                                {CD: "A", NM: "A: String"},
+                                {CD: "B", NM: "B: Number"},
+                                {CD: "C", NM: "C: substr"},
+                                {CD: "D", NM: "D: substring"}
+                            ]
+                        }
+                    }
+                    },
+                    {
+                        key: "saleDt", label: "saleDt", align: "center", editor: {
+                        type: "date", config: {}
+                    }
+                    },
+                    {
+                        key: "customer", label: "Customer", align: "center", editor: {type: "text"}
+                    },
+                    {
+                        key: "hash", label: "hash", width: 300, align: "left", formatter: function () {
+                        return this.item["__hs__"];
+                    }
+                    }
+                ],
+                body: {
+                    columnHeight: 26,
+                    onDataChanged: function () {
+                        if (this.key == 'isChecked') {
+                            this.self.updateChildRows(this.dindex, {isChecked: this.item.isChecked});
+                        }
+                        else if(this.key == '__selected__'){
+                            this.self.updateChildRows(this.dindex, {__selected__: this.item.__selected__});
+                        }
+                    }
+                },
+                tree: {
+                    use: true,
+                    indentWidth: 10,
+                    arrowWidth: 15,
+                    iconWidth: 18,
+                    icons: {
+                        openedArrow: '<i class="cqc-upload2" aria-hidden="true"></i>',
+                        collapsedArrow: '<i class="cqc-download2" aria-hidden="true"></i>',
+                        groupIcon: '<i class="cqc-sitemap" aria-hidden="true"></i>',
+                        collapsedGroupIcon: '<i class="cqc-uh-page-view" aria-hidden="true"></i>',
+                        itemIcon: '<i class="cqc-tag" aria-hidden="true"></i>'
+                    },
+                    columnKeys: {
+                        parentKey: "pid",
+                        selfKey: "id"
+                    }
+                }
+            });
+     
+            var sampleData = [
+                {id: 0, name: "Thomas Jang", price: 1000, amount: null, saleDt: "2016-08-29", customer: "장기영", saleType: "A", isChecked: "N"},
+                {pid: "0", id: "2", name: "Seowoo", price: 1100, amount: 11, saleDt: "2016-08-28", customer: "장서우", saleType: "B", isChecked: "N"},
+                {pid: "0", id: "3", name: "Mondo", price: 1200, amount: 10, saleDt: "2016-08-27", customer: "이영희", saleType: "A", isChecked: "N"},
+                {pid: "0", id: "4", name: "Brant", price: 1300, amount: 8, saleDt: "2016-08-25", customer: "황인서", saleType: "C", isChecked: "N"},
+                {pid: "4", id: "5", name: "Tiffany", price: 1500, amount: 2, saleDt: "2016-08-26", customer: "이서연", saleType: "A", isChecked: "N"},
+                {pid: "4", id: "6", name: "Edward", price: 1400, amount: 5, saleDt: "2016-08-29", customer: "황세진", saleType: "D", isChecked: "N"},
+                {pid: "4", id: "7", name: "Bill", price: 1400, amount: 5, saleDt: "2016-08-29", customer: "이하종", saleType: "B", isChecked: "N"},
+                {pid: "0", id: "8", name: "Aeei", price: 1400, amount: 5, saleDt: "2016-08-29", customer: "김혜미", saleType: "C", isChecked: "N"}
+            ];
+            firstGrid.setData(sampleData);
+     
+        });
+    </script>
+</body>
+</html>
