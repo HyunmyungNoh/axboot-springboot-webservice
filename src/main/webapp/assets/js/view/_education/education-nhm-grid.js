@@ -59,6 +59,13 @@ var ACTIONS = axboot.actionExtend(fnObj, {
             return false;
         }
     },
+
+    EXCEL_DOWN: function (caller, act, data) {
+        let frm = document["excelForm"];
+        frm.action = "/api/v1/nhmGrid/excelDown";
+        // frm.parentKey.value=fnObj.gridView01.pKey;
+        frm.submit();
+    }
 });
 
 // fnObj 기본 함수 스타트와 리사이즈
@@ -81,7 +88,9 @@ fnObj.pageButtonView = axboot.viewExtend({
             save: function () {
                 ACTIONS.dispatch(ACTIONS.PAGE_SAVE);
             },
-            excel: function () {},
+            excel: function () {
+                ACTIONS.dispatch(ACTIONS.EXCEL_DOWN);
+            },
         });
     },
 });

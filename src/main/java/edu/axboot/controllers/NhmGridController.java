@@ -1,19 +1,25 @@
 package edu.axboot.controllers;
 
+import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
+import com.chequer.axboot.core.utils.DateUtils;
+import com.chequer.axboot.core.utils.ExcelUtils;
 import com.wordnik.swagger.annotations.ApiImplicitParam;
 import com.wordnik.swagger.annotations.ApiImplicitParams;
+import com.wordnik.swagger.annotations.ApiOperation;
 import edu.axboot.domain.education.EducationNhm;
+import edu.axboot.domain.education.EducationNhmService;
 import org.springframework.stereotype.Controller;
-import com.chequer.axboot.core.api.response.ApiResponse;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import edu.axboot.domain.education.EducationNhmService;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -107,4 +113,12 @@ public class NhmGridController extends BaseController {
         educationNhmService.saveByMyBatis(request);
         return ok();
     }*/
+
+    /**** 엑셀 ****/
+    @ApiOperation(value = "엑셀다운로드", notes = "/resources/excel/education_nhm.xlsx")
+    @RequestMapping(value = "/excelDown", method = {RequestMethod.POST}, produces = APPLICATION_JSON)
+    public void excelDown(RequestParams<EducationNhm> requestParams, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<EducationNhm> list = educationNhmService.getByQueryDsl(requestParams);
+        ExcelUtils.renderExcel("/excel/education_nhm.xlsx", list, "Education_" + DateUtils.getYyyyMMddHHmmssWithDate(), request, response);
+    }
 }

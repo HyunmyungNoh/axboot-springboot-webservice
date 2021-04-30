@@ -2,4 +2,7 @@
 <configuration>
     <include resource="logback-common.xml"/>
     <include resource="logback-local.xml"/>
+<!--  로그 실행 환경을 배포 환경으로 변경 시
+    <include resource="logback-${spring.profiles.active:-production}.xml"/>
+    -->
 </configuration>

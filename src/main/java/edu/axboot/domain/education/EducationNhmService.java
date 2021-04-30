@@ -3,6 +3,8 @@ package edu.axboot.domain.education;
 import com.chequer.axboot.core.parameter.RequestParams;
 import com.querydsl.core.BooleanBuilder;
 import edu.axboot.domain.BaseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -13,6 +15,9 @@ import java.util.List;
 
 @Service
 public class EducationNhmService extends BaseService<EducationNhm, Long> {
+    // logger 사용
+    private static final Logger logger = LoggerFactory.getLogger(EducationNhmService.class);
+
     private EducationNhmRepository educationNhmRepository;
 
     @Inject
@@ -30,12 +35,16 @@ public class EducationNhmService extends BaseService<EducationNhm, Long> {
 
     // QueryDsl
     public List<EducationNhm> getByQueryDsl(RequestParams<EducationNhm> requestParams) {
-        String company = requestParams.getString("companyNm", "");
+        String companyNm = requestParams.getString("companyNm", "");
         String ceo = requestParams.getString("ceo", "");
         String bizno = requestParams.getString("bizno", "");
         String useYn = requestParams.getString("useYn", "");
+        logger.info("회사명 : " + companyNm);
+        logger.info("대표자 : " + ceo);
+        logger.info("사업자번호 : " + bizno);
+        logger.info("사용여부 : " + (useYn == "Y"? "사용함": "사용안함"));
 
-        List<EducationNhm> educationNhmList = this.getByQueryDsl(company, ceo, bizno, useYn);
+        List<EducationNhm> educationNhmList = this.getByQueryDsl(companyNm, ceo, bizno, useYn);
 
         return educationNhmList;
     }
@@ -246,4 +255,27 @@ public class EducationNhmService extends BaseService<EducationNhm, Long> {
     }
 
     public void del(Long id) { educationNhmMapper.delete(id); }
+
+    /* 예외 처리용 함수 */
+    public List<EducationNhm> getListUsingMyBatis(RequestParams<EducationNhm> requestParams) {
+        String companyNm = requestParams.getString("companyNm", "");
+        String ceo = requestParams.getString("ceo", "");
+        String bizno = requestParams.getString("bizno", "");
+        String useYn = requestParams.getString("useYn", "");
+
+        if (!"".equals(useYn) && !"Y".equals(useYn) && !"N".equals(useYn)) {
+            throw new RuntimeException("Y 아니면 N 입력하세요~");
+        }
+
+        HashMap<String, String> params = new HashMap<String, String>();
+
+        params.put("companyNm", companyNm);
+        params.put("ceo", ceo);
+        params.put("bizno", bizno);
+        params.put("useYn", useYn);
+
+        List<EducationNhm> list = educationNhmMapper.select(params);
+
+        return list;
+    }
 }
