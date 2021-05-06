@@ -4,8 +4,8 @@ import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
 import com.chequer.axboot.core.parameter.RequestParams;
-import edu.axboot.domain.education.EducationNhm;
-import edu.axboot.domain.education.EducationNhmService;
+import edu.axboot.domain.education2.EducationNhm;
+import edu.axboot.domain.education2.EducationNhmService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/api/v1/education/nhmGridForm")
+@RequestMapping(value = "/api/v1/education2/nhmGridForm")
 public class NhmGridFormController extends BaseController {
 
     private static final Logger logger = LoggerFactory.getLogger(NhmGridFormController.class);

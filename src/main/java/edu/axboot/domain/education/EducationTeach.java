@@ -1,18 +1,21 @@
-package edu.axboot.domain.education.book;
+package edu.axboot.domain.education;
 
 import com.chequer.axboot.core.annotations.ColumnPosition;
 import edu.axboot.domain.BaseJpaModel;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
+@Setter
 @Getter
-@NoArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @Entity
 @Table(name = "EDUCATION_TEACH")
-public class EducationBook extends BaseJpaModel<Long> {
+public class EducationTeach extends BaseJpaModel<Long> {
 
 	@Id
 	@Column(name = "ID", precision = 19, nullable = false)
@@ -65,23 +68,4 @@ public class EducationBook extends BaseJpaModel<Long> {
 		return id;
 	}
 
-	@Builder
-	public EducationBook(String companyNm, String ceo, String bizno, String tel, String zip, String address,
-						 String addressDetail, String email,  String remark, String useYn) {
-		this.companyNm = companyNm;
-		this.ceo = ceo;
-		this.bizno = bizno;
-		this.tel = tel;
-		this.zip = zip;
-		this.address = address;
-		this.addressDetail = addressDetail;
-		this.email = email;
-		this.remark = remark;
-		this.useYn = useYn;
-	}
-
-	public void update(String tel, String email) {
-		this.tel = tel;
-		this.email = email;
-	}
 }

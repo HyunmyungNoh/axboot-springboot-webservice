@@ -1,4 +1,4 @@
-package edu.axboot.domain.education;
+package edu.axboot.domain.education2;
 
 import edu.axboot.AXBootApplication;
 import lombok.extern.java.Log;

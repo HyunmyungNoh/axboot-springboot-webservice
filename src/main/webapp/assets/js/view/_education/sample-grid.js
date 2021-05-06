@@ -196,6 +196,7 @@ fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
                     width: 100, 
                     align: "center",
                     formatter: function () {
+                        if (!this.item.useYn) return '';
                         var i = 0,
                             len = fnObj.selectItems.length,
                             value;

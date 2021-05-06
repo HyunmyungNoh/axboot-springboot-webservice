@@ -3,8 +3,8 @@ package edu.axboot.controllers;
 import com.chequer.axboot.core.api.response.ApiResponse;
 import com.chequer.axboot.core.api.response.Responses;
 import com.chequer.axboot.core.controllers.BaseController;
-import edu.axboot.domain.education.EducationNhm;
-import edu.axboot.domain.education.EducationNhmService;
+import edu.axboot.domain.education2.EducationNhm;
+import edu.axboot.domain.education2.EducationNhmService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,7 @@ import java.util.List;
 /******** 4/28 Form을 위한 MyBatis controller ********/
 
 @Controller
-@RequestMapping(value = "/api/v1/education/nhmGridForm/myBatis")
+@RequestMapping(value = "/api/v1/education2/nhmGridForm/myBatis")
 public class NhmGridFormMybatisController extends BaseController {
 
     @Inject

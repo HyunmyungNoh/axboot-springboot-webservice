@@ -1,6 +1,6 @@
-package edu.axboot.controllers.dto;
+package edu.axboot.controllers.dto2;
 
-import edu.axboot.domain.education.book.EducationBook;
+import edu.axboot.domain.education2.book.EducationBook2;
 import lombok.Getter;
 
 @Getter
@@ -17,7 +17,8 @@ public class EducationResponseDto {
     private String remark;
     private String useYn;
 
-    public EducationResponseDto(EducationBook entity) {
+    // entity를 Dto로 변환해줌(builder 방식이 아님)
+    public EducationResponseDto(EducationBook2 entity) {
         this.id = entity.getId();
         this.companyNm = entity.getCompanyNm();
         this.ceo = entity.getCeo();

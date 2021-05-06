@@ -1,10 +1,10 @@
-package edu.axboot.domain.education.book;
+package edu.axboot.domain.education2.book;
 
 
 import edu.axboot.AXBootApplication;
-import edu.axboot.controllers.dto.EducationResponseDto;
-import edu.axboot.controllers.dto.EducationSaveRequestDto;
-import edu.axboot.controllers.dto.EducationUpdateRequestDto;
+import edu.axboot.controllers.dto2.EducationResponseDto;
+import edu.axboot.controllers.dto2.EducationSaveRequestDto;
+import edu.axboot.controllers.dto2.EducationUpdateRequestDto;
 import lombok.extern.java.Log;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class EducationBookServiceTest {
     private static final Logger logger = LoggerFactory.getLogger(EducationBookServiceTest.class);
 
     @Autowired
-    private EducationBookService educationBookService;
+    private EducationBookService2 educationBookService;
 
     public static long testId = 0;
 

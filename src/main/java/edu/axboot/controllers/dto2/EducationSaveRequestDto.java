@@ -1,6 +1,6 @@
-package edu.axboot.controllers.dto;
+package edu.axboot.controllers.dto2;
 
-import edu.axboot.domain.education.book.EducationBook;
+import edu.axboot.domain.education2.book.EducationBook2;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +25,7 @@ public class EducationSaveRequestDto {
         this.companyNm = companyNm;
         this.ceo = ceo;
         this.bizno = bizno;
+        this.companyNm = companyNm;
         this.tel = tel;
         this.zip = zip;
         this.address = address;
@@ -34,8 +35,8 @@ public class EducationSaveRequestDto {
         this.useYn = useYn;
     }
 
-    public EducationBook toEntity() {
-        return EducationBook.builder()
+    public EducationBook2 toEntity() {
+        return EducationBook2.builder()
                 .companyNm(companyNm)
                 .ceo(ceo)
                 .bizno(bizno)

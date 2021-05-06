@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @RequiredArgsConstructor
 @Service
 public class EducationBookService extends BaseService<EducationBook, Long> {
@@ -26,11 +25,12 @@ public class EducationBookService extends BaseService<EducationBook, Long> {
 
     @Transactional
     public Long update(Long id, EducationUpdateRequestDto requestDto) {
-        // 좀 더 높은 버전에서는 findById를 사용할 수 있다.
         EducationBook educationBook = educationBookRepository.findOne(id);
-        if (educationBook == null) throw new IllegalArgumentException("해당 거래처가 없습니다. id = " + id);
 
-        // 쿼리 없이 이 educationBook 엔티티가 update 작업을 처리하게 된다.
+        if (educationBook == null) {
+            throw new IllegalArgumentException("해당 거래처가 없습니다. id=" + id);
+        }
+
         educationBook.update(requestDto.getTel(), requestDto.getEmail());
 
         return id;
@@ -38,26 +38,36 @@ public class EducationBookService extends BaseService<EducationBook, Long> {
 
     public EducationResponseDto findById(Long id) {
         EducationBook entity = educationBookRepository.findOne(id);
-        if (entity == null) throw new IllegalArgumentException("해당 거래처가 없습니다. id = " + id);
+
+        if (entity == null) {
+            throw new IllegalArgumentException("해당 거래처가 없습니다. id=" + id);
+        }
 
         return new EducationResponseDto(entity);
     }
 
     @Transactional(readOnly = true)
-    public List<EducationListResponseDto> getList(String companyNm, String ceo, String bizno) {
+    public List<EducationListResponseDto> findBy(String companyNm, String ceo, String bizno) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (isNotEmpty(companyNm)) builder.and(qEducationBook.companyNm.contains(companyNm));
-        if (isNotEmpty(ceo)) builder.and(qEducationBook.ceo.contains(ceo));
-        if (isNotEmpty(bizno)) builder.and(qEducationBook.bizno.eq(bizno));
+        if (isNotEmpty(companyNm)) {
+            builder.and(qEducationBook.companyNm.contains(companyNm));
+        }
+        if (isNotEmpty(ceo)) {
+            builder.and(qEducationBook.ceo.like("%" + ceo +"%"));
+        }
+        if (isNotEmpty(bizno)) {
+            builder.and(qEducationBook.bizno.like(bizno + "%"));
+        }
 
-        List<EducationBook> list = select()
+        List<EducationBook> entitis = select()
                 .from(qEducationBook)
                 .where(builder)
                 .orderBy(qEducationBook.companyNm.asc())
                 .fetch();
 
-        return list.stream()
+
+        return entitis.stream()
                 .map(EducationListResponseDto::new)
                 .collect(Collectors.toList());
     }

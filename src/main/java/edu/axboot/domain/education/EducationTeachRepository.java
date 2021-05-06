@@ -4,5 +4,5 @@ import com.chequer.axboot.core.domain.base.AXBootJPAQueryDSLRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EducationNhmRepository extends AXBootJPAQueryDSLRepository<EducationNhm, Long> {
+public interface EducationTeachRepository extends AXBootJPAQueryDSLRepository<EducationTeach, Long> {
 }

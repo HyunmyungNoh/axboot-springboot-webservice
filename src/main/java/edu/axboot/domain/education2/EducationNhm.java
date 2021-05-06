@@ -1,4 +1,4 @@
-package edu.axboot.domain.education;
+package edu.axboot.domain.education2;
 
 
 import com.chequer.axboot.core.annotations.ColumnPosition;

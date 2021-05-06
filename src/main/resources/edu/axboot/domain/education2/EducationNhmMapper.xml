@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="edu.axboot.domain.education.EducationNhmMapper">
+<mapper namespace="edu.axboot.domain.education2.EducationNhmMapper">
     <!--<select id="selectBy" resultType="EducationNhm" parameterType="EducationNhm" statementType="PREPARED">
         SELECT
             ID AS id,
