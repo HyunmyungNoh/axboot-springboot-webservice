@@ -48,6 +48,7 @@ public class EducationNhmService extends BaseService<EducationNhm, Long> {
 
         return educationNhmList;
     }
+
     public List<EducationNhm> getByQueryDsl(String companyNm, String ceo, String bizno, String useYn) {
         BooleanBuilder builder = new BooleanBuilder();
         if(isNotEmpty(companyNm)) builder.and(qEducationNhm.companyNm.contains(companyNm));
